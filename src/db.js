@@ -3,18 +3,17 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME,DB_PORT } = process.env;
-//port 5432
-// const sequelize = new Sequelize(
-//   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-//   { logging: false }
-// );
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 
-const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-  host: DB_HOST,
-  dialect: "mysql" /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */,
-  // port:DB_PORT
-});
+const sequelize = new Sequelize(
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+  { logging: false }
+);
+
+// const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+//   host: DB_HOST,
+//   dialect: "mysql" /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
+// });
 
 const basename = path.basename(__filename);
 
@@ -40,13 +39,20 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { Artist, Event } = sequelize.models;
+const { Artist, Event, Conversation, Message } = sequelize.models;
 
 // Country.belongsToMany(Activity, { through: "countries_activities" });
 
 Artist.belongsToMany(Event, { through: "artists_events", onDelete: 'CASCADE' });
 Event.belongsToMany(Artist, { through: "artists_events"});
 
+//Relaciones chat
+//Artistas-Conversation
+Artist.belongsToMany(Conversation, { through: 'ArtistConversation' });
+Conversation.belongsToMany(Artist, { through: 'ArtistConversation' });
+//Conversation-Message
+Conversation.hasMany(Message, { as: 'menssage', foreignKey: 'conversationId' });
+Message.belongsTo(Conversation, { as: 'conversation', foreignKey: 'conversationId' });
 
 
 

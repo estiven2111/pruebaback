@@ -13,7 +13,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://urbanclub.club/artist/auth/google/callback",
+      callbackURL: "https://pruebaback-production-0050.up.railway.app/artist/auth/google/callback",
       passReqToCallback: true
   },
   async (req, accessToken, refreshToken, profile, done) => {

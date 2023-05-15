@@ -24,6 +24,7 @@ const unfollowArtistHandler = require("../Handlers/artistHandler/unfollowArtistH
 const getFollowingsHandler = require("../Handlers/artistHandler/getFollowingsHandler");
 const getFollowersHandler = require("../Handlers/artistHandler/getFollowersHandler");
 const artistRouter = Router();
+const {URL_FRONT} = require("../env")
 
 
 artistRouter.get("/", getArtistHandler);
@@ -59,10 +60,8 @@ artistRouter.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureMessage: "no se pudo iniciar sesion con google",
-    // failureRedirect: "http://localhost:3000/login", //! una direccion de front 
-    // successRedirect: "http://localhost:3000/login/success" //!reemplazar por https://urbanclub.club
-    failureRedirect: "https://urbanclub.club/login", //! una direccion de front 
-    successRedirect: "https://urbanclub.club/login/success" //!reemplazar por https://urbanclub.club
+    failureRedirect: `${URL_FRONT}/login`, //! una direccion de front 
+    successRedirect: `${URL_FRONT}/login/success` //!reemplazar por https://urbanclub.club
     // session: false,
   }),
   (req, res) => {
@@ -80,7 +79,7 @@ artistRouter.get(
 
 
         // </body>
-        // <script> window.opener.postMessage(${userString}, 'http://localhost:3001') </script>
+        // <script> window.opener.postMessage(${userString}, '${URL_BACK}') </script>
         // </html>
         // `
       )
@@ -96,8 +95,7 @@ artistRouter.get("/auth/user", isAuthGoogle, (req,res)=>{
 })
 
 artistRouter.get("/resetPassword/:token", verifyPassToken, (req, res) => {
-  // res.redirect("http://localhost:3000/artist/login")
-  res.redirect("https://urbanclub.club/artist/login")
+  res.redirect(`${URL_FRONT}/artist/login`)
 })
 
 

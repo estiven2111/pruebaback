@@ -42,20 +42,20 @@ const { Artist, Event, Conversation, Message, Follow, EventComment } = sequelize
 Artist.belongsToMany(Event, { through: "artists_events", onDelete: 'CASCADE' });
 Event.belongsToMany(Artist, { through: "artists_events"});
 
-// //Relaciones chat
-// //Artistas-Conversation
-// Artist.belongsToMany(Conversation, { through: 'ArtistConversation' });
-// Conversation.belongsToMany(Artist, { through: 'ArtistConversation' });
-// //Conversation-Message
-// Conversation.hasMany(Message, { as: 'menssage', foreignKey: 'conversationId' });
-// Message.belongsTo(Conversation, { as: 'conversation', foreignKey: 'conversationId',onDelete: 'CASCADE' });
-// //Relaciones follow
-// Artist.hasMany(Follow, { foreignKey: 'following_Id', as: 'follower' });
-// Artist.hasMany(Follow, { foreignKey: 'follower_Id', as: 'following' });
+//Relaciones chat
+//Artistas-Conversation
+Artist.belongsToMany(Conversation, { through: 'ArtistConversation' });
+Conversation.belongsToMany(Artist, { through: 'ArtistConversation' });
+//Conversation-Message
+Conversation.hasMany(Message, { as: 'menssage', foreignKey: 'conversationId' });
+Message.belongsTo(Conversation, { as: 'conversation', foreignKey: 'conversationId',onDelete: 'CASCADE' });
+//Relaciones follow
+Artist.hasMany(Follow, { foreignKey: 'following_Id', as: 'follower' });
+Artist.hasMany(Follow, { foreignKey: 'follower_Id', as: 'following' });
 
-// //Comments-Events
-// Event.hasMany(EventComment, {as: 'eventComment', foreignKey: 'eventId' });
-// EventComment.belongsTo(Event, {as: 'event', foreignKey: 'eventId', onDelete: 'CASCADE'});
+//Comments-Events
+Event.hasMany(EventComment, {as: 'eventComment', foreignKey: 'eventId' });
+EventComment.belongsTo(Event, {as: 'event', foreignKey: 'eventId', onDelete: 'CASCADE'});
 
 
 

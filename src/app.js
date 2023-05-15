@@ -9,25 +9,23 @@ const session = require('express-session');
 
 
 const app = express();
-
-app.use(morgan("dev"));
-app.use(cors())
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
-//? inicializar el modulo passport
-app.use(passport.initialize());
+app.use(morgan("dev"));
 app.use(session({
     secret: 'my-secret-key',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000 
+    }
   }));
-  // server.use((req, res, next) => {
-  //   //http://localhost:3000 https://pi-web-git-main-estiven2111.vercel.app/   https://pi-lqaa7gh3w-estiven2111.vercel.app  https://pi-dovldixrv-estiven2111.vercel.app/
-  //   res.header('Access-Control-Allow-Origin', 'https://urbanclub.club'); // (*)update to match the domain you will make the request from
-  //   res.header('Access-Control-Allow-Credentials', 'true');
-  //   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  //   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  //   next();
-  // });
+  //? inicializar el modulo passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(cors({origin:"https://urbanclub.club", credentials:true}))
+// app.use(cors({origin:"http://localhost:3000", credentials:true}))
 
 // app.use(fileupload({
 //     useTempFiles: true,

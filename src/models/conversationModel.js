@@ -4,9 +4,9 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   sequelize.define('Conversation', {
     id: {
-      type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
     },
     members: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),

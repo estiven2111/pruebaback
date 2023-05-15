@@ -9,7 +9,7 @@ const io = require("socket.io")(server);
 
 app.listen(PORT, ()=>{
 
-    sequelize.sync({force: false});
+    sequelize.sync({force: true});
 
     console.log(`Listening on port ${PORT}`);
 }); */
@@ -26,7 +26,7 @@ require("dotenv").config();
 
 const { PORT } = process.env || process.env.PORT;
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
   server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
   });
